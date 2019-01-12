@@ -48,14 +48,24 @@
                     {% for user in users %}
                     <tr>
                     <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.gender == 'm' ? 'Male' : 'Female' }}</td>
-                    <td>{{ user.description }}</td>
+                    <td>
+                        <a class="apply-xeditable" href="#" data-type="text" data-pk="{{ user.id }}" data-name="name" data-url="{{ path('user_update_field') }}" data-original-title="Enter Name">{{ user.name }}</a>
+                    </td>
+                    <td>
+                        <a class="apply-xeditable" href="#" data-type="text" data-pk="{{ user.id }}" data-name="username" data-url="{{ path('user_update_field') }}" data-original-title="Enter Username">{{ user.username }}</a>
+                    </td>
+                    <td>
+                        <a class="apply-xeditable" href="#" data-type="email" data-pk="{{ user.id }}" data-name="email" data-url="{{ path('user_update_field') }}" data-original-title="Enter Email">{{ user.email }}</a>
+                    </td>
+                    <td>
+                        <a class="apply-xeditable gender" href="#" data-type="select" data-value="{{ user.gender }}" data-pk="{{ user.id }}" data-name="gender" data-url="{{ path('user_update_field') }}" data-original-title="Select Gender">{{ user.gender == 'm' ? 'Male' : 'Female' }}</a>
+                    </td>
+                    <td>
+                        <a class="apply-xeditable" href="#" data-type="textarea" data-pk="{{ user.id }}" data-name="description" data-url="{{ path('user_update_field') }}" data-original-title="Enter Description">{{ user.description }}</a>
+                    </td>
                     <td>
                         <a class="btn btn-success" href="{{ path('user_edit', {'id': user.id}) }}" role="button">Edit</a>
-                        {# <button type="button" class="btn btn-info toggle-editable" role="button">Inline Edit</button> #}
+                        <button type="button" class="btn btn-info toggle-editable" role="button">Inline Edit</button>
                         <a class="btn btn-danger" href="{{ path('user_delete', {'id': user.id}) }}" role="button">Delete</a>
                     </td>
                     </tr>

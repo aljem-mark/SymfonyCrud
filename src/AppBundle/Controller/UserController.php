@@ -7,6 +7,7 @@ use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
 {
@@ -99,5 +100,66 @@ class UserController extends Controller
         $this->addFlash('success', 'User successfully deleted!');
 
         return $this->redirectToRoute('user_list');
+    }
+
+    /**
+     * @Route("/user/updatefield", name="user_update_field")
+     */
+    public function updateFieldAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1)
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $repository = $this->getDoctrine()
+                ->getRepository('AppBundle:User');
+            $user = $repository->find($request->get('pk'));
+            
+
+            switch ($request->get('name')) {
+                case 'name':
+                    $user->setName($request->get('value'));
+                    break;
+
+                case 'username':
+                    $user->setUsername($request->get('value'));
+                    break;
+
+                case 'email':
+                    $user->setEmail($request->get('value'));
+                    break;
+
+                case 'gender':
+                    $user->setGender($request->get('value'));
+                    break;
+
+                case 'description':
+                    $user->setDescription($request->get('value'));
+                    break;
+            }
+
+            $violations = $this->get('validator')
+                ->validate($user);
+            
+            if (count($violations)) {
+                foreach ($violations as $key => $value) {
+                    $errMsg[] = $value->getMessage();
+                }
+                $response = new JsonResponse(['errors' => $errMsg], 400);
+                return $response;
+            }
+            else {
+                try {
+                    $em->persist($user);
+                    $em->flush();
+                } catch(\Doctrine\DBAL\DBALException $e) {
+                    $response = new JsonResponse(['errors' => 'Username or Email must be unique.'], 400);
+                    return $response;
+                }
+
+                $response = new JsonResponse(['success' => true]);
+                return $response;
+            }
+        }
     }
 }

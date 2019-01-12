@@ -12,6 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(
+ *      fields={"username", "email"},
+ *      message="This {{ value }} is already used."
+ * )
  */
 class User implements UserInterface
 {
@@ -28,6 +32,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
 

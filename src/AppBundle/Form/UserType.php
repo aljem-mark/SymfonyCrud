@@ -67,7 +67,7 @@ class UserType extends AbstractType
                     'class' => 'form-control mb-4'
                 ]
             ])
-            ->add('register', SubmitType::class, [
+            ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Edit User</div>
+                <div class="card-body">
+                    {{ form_start(edit_form) }}
+                        {{ form_row(edit_form._token) }}
+                        {{ form_row(edit_form.name) }}
+                        {{ form_row(edit_form.username) }}
+                        {{ form_row(edit_form.email) }}
+                        {{ form_row(edit_form.gender) }}
+                        {{ form_row(edit_form.description) }}
+                        {{ form_row(edit_form.save) }}
+                    {{ form_end(edit_form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

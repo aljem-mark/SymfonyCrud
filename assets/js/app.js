@@ -1,4 +1,5 @@
 // app.js
+require('@fortawesome/fontawesome-free/js/all.js');
 require('../css/app.scss');
 
 const $ = require('jquery');

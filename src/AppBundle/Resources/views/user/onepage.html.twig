@@ -65,7 +65,7 @@
                             <a class="apply-xeditable" href="#" data-type="textarea" data-pk="{{ user.id }}" data-name="description" data-url="{{ path('user_update_field') }}" data-original-title="Enter Description">{{ user.description }}</a>
                         </td>
                         <td>
-                            <a class="btn btn-success mb-md-2" href="{{ path('user_edit', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></a>
+                            <button type="button" class="btn btn-success mb-md-2 onepage-edit" data-href="{{ path('user_get_data', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></button>
                             <button type="button" class="btn btn-info toggle-editable mb-md-2" role="button" title="Inline Edit"><i class="fas fa-pen-alt"></i></button>
                             <a class="btn btn-danger mb-md-2" href="{{ path('user_delete', {'id': user.id}) }}" role="button" title="Delete"><i class="fas fa-trash-alt"></i></a>
                         </td>
@@ -85,6 +85,7 @@
             <div class="card" id="onepage-card">
                 <div class="card-header">Edit User</div>
                 <div class="card-body">
+                    <div class="form_error"></div>
                     {{ form_start(onepage_form) }}
                         <input type="hidden" name="id">
                         {{ form_row(onepage_form._token) }}

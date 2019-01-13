@@ -100,8 +100,6 @@ class RegistrationController extends Controller
 
         $user->setPassword($password);
 
-        $em = $this->getDoctrine()->getManager();
-
         $violations = $this->get('validator')
             ->validate($user);
         
@@ -116,6 +114,7 @@ class RegistrationController extends Controller
         else
         {
             try {
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
             } catch(\Doctrine\DBAL\DBALException $e) {

@@ -13,8 +13,46 @@ require('../bootstrap-editable/scss/bootstrap-editable.scss');
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
+var userData;
+
 function toggleEditable(el) {
     $(el).closest('tr').find('.apply-xeditable').editable('toggleDisabled');
+}
+
+function getUserData(url)
+{
+    var returnVal;
+    $.ajax({
+        type: 'post',
+        url: url
+    })
+    .done(function (data) {
+        if (typeof data.user !== 'undefined')
+        {
+            setOnepageFormData(data.user);
+        }
+    })
+    .fail(function (data, textStatus, errorThrown)
+    {
+    });
+}
+
+function setOnepageFormData(data)
+{
+    userData = data;
+    onepageForm = document.forms['onepage-edit'];
+    for (const name in userData) {
+        if (userData.hasOwnProperty(name)) {
+            if( name == 'id' )
+            {
+                onepageForm.elements[name].value = userData[name];
+            }
+            else
+            {
+                onepageForm.elements['appbundle_user[' + name + ']'].value = userData[name];
+            }
+        }
+    }
 }
 
 $(document).ready(function() {
@@ -23,6 +61,41 @@ $(document).ready(function() {
     // set nav-item to active
     $('.nav-item.active').removeClass('active');
     $('.nav-link[href="' + location.pathname + '"]').closest('.nav-item').addClass('active');
+
+    // START: Onepage Edit
+    $(document).on('click', '.onepage-edit', function(e) {
+        getUserData($(this).attr('data-href'));
+    });
+
+    $('#onepage-edit').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize()
+        })
+        .done(function (data) {
+            if (typeof data.message !== 'undefined')
+            {
+                $('#onepage-card .form_error').html("<div class=\"alert alert-success\">" + data.message + "</div>");
+            }
+            
+            $('#onepage-card').animate({ scrollTop: 0 }, 'slow');
+    
+            setTimeout(function(){ document.location.reload(true) }, 2000);
+        })
+        .fail(function (data, textStatus, errorThrown)
+        {
+            if (typeof data.responseJSON !== 'undefined') {
+                $('#onepage-card .form_error').html(data.responseJSON.message);
+            } else {
+                alert(errorThrown);
+            }
+            
+            $('#onepage-card').animate({ scrollTop: 0 }, 'slow');
+        });
+    });
+    // END: Onepage Edit
 
     // START: X-EDITABLE
     $(document).on('click', '.toggle-editable', function(e) {
@@ -82,7 +155,7 @@ $(document).ready(function() {
         })
         .done(function (data) {
             if (typeof data.message !== 'undefined') {
-                $('.form_error').html("<div class=\"alert alert-success mb-0\">" + data.message + "</div>");
+                $('.form_error').html("<div class=\"alert alert-success\">" + data.message + "</div>");
             }
             
             $('.modal').animate({ scrollTop: 0 }, 'slow');

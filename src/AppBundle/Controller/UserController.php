@@ -119,7 +119,6 @@ class UserController extends Controller
             $repository = $this->getDoctrine()
                 ->getRepository('AppBundle:User');
             $user = $repository->find($request->get('pk'));
-            
 
             switch ($request->get('name')) {
                 case 'name':
@@ -227,5 +226,65 @@ class UserController extends Controller
      */
     public function onepageEditAction(Request $request)
     {
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:User');
+        $user = $repository->find($request->get('id'));
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        $violations = $this->get('validator')
+            ->validate($user);
+        
+        if (count($violations))
+        {
+            foreach ($violations as $key => $value) {
+                $errMsg[] = "<li>" . $value->getMessage() . "</li>";
+            }
+            $response = new JsonResponse(['message' => "<div class=\"alert alert-danger\"><ul>" . implode($errMsg) . "</ul></div>"], 400);
+            return $response;
+        }
+        else
+        {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            } catch(\Doctrine\DBAL\DBALException $e) {
+                return new JsonResponse(['message' => 'Username or Email must be unique.'], 400);
+            }
+
+            return new JsonResponse(['message' => 'User successfully updated!'], 200);
+        }
+    }
+
+    /**
+     * @Route("/user/get-data/{id}", name="user_get_data")
+     */
+    public function getUserDataAction($id, Request $request)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:User');
+        $user = $repository->find($id);
+
+        $userArray = [
+            'id' => $user->getId(),
+            'name' => $user->getName(),
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+            'gender' => $user->getGender(),
+            'description' => $user->getDescription()
+        ];
+
+        return new JsonResponse([
+            'user' => $userArray
+        ], 200);
     }
 }

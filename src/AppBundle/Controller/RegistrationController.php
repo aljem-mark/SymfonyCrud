@@ -110,7 +110,7 @@ class RegistrationController extends Controller
             foreach ($violations as $key => $value) {
                 $errMsg[] = "<li>" . $value->getMessage() . "</li>";
             }
-            $response = new JsonResponse(['message' => "<div class=\"alert alert-danger mb-0\"><ul>" . implode($errMsg) . "</ul></div>"], 400);
+            $response = new JsonResponse(['message' => "<div class=\"alert alert-danger\"><ul>" . implode($errMsg) . "</ul></div>"], 400);
             return $response;
         }
         else

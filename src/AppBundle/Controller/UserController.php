@@ -20,6 +20,11 @@ class UserController extends Controller
         $queryBuilder = $em->getRepository('AppBundle:User')
             ->createQueryBuilder('a');
 
+        if(!$request->query->get('sort') && !$request->query->get('direction')) {
+            $_GET['sort'] = 'a.id';
+            $_GET['direction'] = 'desc';
+        }
+
         if($request->query->getAlnum('filter'))
         {
             $queryBuilder

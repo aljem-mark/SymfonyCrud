@@ -16,6 +16,9 @@ function toggleEditable(el) {
 }
 
 $(document).ready(function() {
+    $('.nav-item.active').removeClass('active');
+    $('.nav-link[href="' + location.pathname + '"]').closest('.nav-item').addClass('active');
+
     $('[data-toggle="popover"]').popover();
 
     $(document).on('click', '.toggle-editable', function(e) {

@@ -35,9 +35,9 @@
                     </li> #}
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('registration') }}">Add User</a>
-                    </li>
+                    {{ render(controller(
+                        'AppBundle:Registration:modal'
+                    )) }}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('registration') }}">Register</a>
                     </li>

@@ -13,8 +13,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(
- *      fields={"username", "email"},
- *      message="This {{ value }} is already used."
+ *      fields={"username"},
+ *      message="Username {{ value }} already used."
+ * )
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      message="Email {{ value }} already used."
  * )
  */
 class User implements UserInterface

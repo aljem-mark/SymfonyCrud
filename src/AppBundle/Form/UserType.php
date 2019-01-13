@@ -63,6 +63,7 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-4'
                 ]
@@ -70,7 +71,7 @@ class UserType extends AbstractType
             ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'
-                ]
+                ],
             ]);
     }/**
      * {@inheritdoc}

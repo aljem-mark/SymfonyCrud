@@ -63,6 +63,34 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('#registration-modal-save').on('submit', function(e) {
+
+        e.preventDefault();
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize()
+        })
+        .done(function (data) {
+            if (typeof data.message !== 'undefined') {
+                $('.form_error').html("<div class=\"alert alert-success mb-0\">" + data.message + "</div>");
+            }
+            
+            $('.modal').animate({ scrollTop: 0 }, 'slow');
+
+            setTimeout(function(){ document.location.reload(true) }, 2000);
+        })
+        .fail(function (data, textStatus, errorThrown) {
+            if (typeof data.responseJSON !== 'undefined') {
+                $('.form_error').html(data.responseJSON.message);
+            } else {
+                alert(errorThrown);
+            }
+            
+            $('.modal').animate({ scrollTop: 0 }, 'slow');
+        });
+    });
 });
 
 require('../bootstrap-editable/js/bootstrap-editable.js');

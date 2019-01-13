@@ -3,3 +3,11 @@
 .homepage-container {
     height: 80vh;
 }
+
+.sortable {
+    color: #585858;
+    &:hover {
+        color: #333;
+        text-decoration: none;
+    }
+}

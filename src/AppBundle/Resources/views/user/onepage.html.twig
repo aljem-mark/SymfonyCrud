@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% block title %}Users Onepage{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row justify-content-center mt-md-3">
+        <div class="col-12">
+            {% for label, messages in app.flashes(['success', 'danger']) %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row justify-content-between align-items-center mb-md-3">
+        <div class="col-auto">
+            <h1 class="mb-0">Users</h1>
+        </div>
+        <div class="col-auto">
+            <form action="{{ path('user_onepage') }}" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="filter" placeholder="Search..." aria-label="Search..." aria-describedby="filter">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit" id="filter"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-12">
+            <div class="table-responsive-lg">
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">{{ knp_pagination_sortable(users, '#', 'a.id') }}</th>
+                        <th scope="col">{{ knp_pagination_sortable(users, 'Name', 'a.name') }}</th>
+                        <th scope="col">{{ knp_pagination_sortable(users, 'Username', 'a.username') }}</th>
+                        <th scope="col">{{ knp_pagination_sortable(users, 'Email', 'a.email') }}</th>
+                        <th scope="col">{{ knp_pagination_sortable(users, 'Gender', 'a.gender') }}</th>
+                        <th scope="col">{{ knp_pagination_sortable(users, 'Description', 'a.description') }}</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>
+                            <a class="apply-xeditable" href="#" data-type="text" data-pk="{{ user.id }}" data-name="name" data-url="{{ path('user_update_field') }}" data-original-title="Enter Name">{{ user.name }}</a>
+                        </td>
+                        <td>
+                            <a class="apply-xeditable" href="#" data-type="text" data-pk="{{ user.id }}" data-name="username" data-url="{{ path('user_update_field') }}" data-original-title="Enter Username">{{ user.username }}</a>
+                        </td>
+                        <td>
+                            <a class="apply-xeditable" href="#" data-type="email" data-pk="{{ user.id }}" data-name="email" data-url="{{ path('user_update_field') }}" data-original-title="Enter Email">{{ user.email }}</a>
+                        </td>
+                        <td>
+                            <a class="apply-xeditable gender" href="#" data-type="select" data-value="{{ user.gender }}" data-pk="{{ user.id }}" data-name="gender" data-url="{{ path('user_update_field') }}" data-original-title="Select Gender">{{ user.gender == 'm' ? 'Male' : 'Female' }}</a>
+                        </td>
+                        <td>
+                            <a class="apply-xeditable" href="#" data-type="textarea" data-pk="{{ user.id }}" data-name="description" data-url="{{ path('user_update_field') }}" data-original-title="Enter Description">{{ user.description }}</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-success mb-md-2" href="{{ path('user_edit', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></a>
+                            <button type="button" class="btn btn-info toggle-editable mb-md-2" role="button" title="Inline Edit"><i class="fas fa-pen-alt"></i></button>
+                            <a class="btn btn-danger mb-md-2" href="{{ path('user_delete', {'id': user.id}) }}" role="button" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row navigation justify-content-center">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-4 col-md-8">
+            <div class="card" id="onepage-card">
+                <div class="card-header">Edit User</div>
+                <div class="card-body">
+                    {{ form_start(onepage_form) }}
+                        <input type="hidden" name="id">
+                        {{ form_row(onepage_form._token) }}
+                        {{ form_row(onepage_form.name) }}
+                        {{ form_row(onepage_form.username) }}
+                        {{ form_row(onepage_form.email) }}
+                        {{ form_row(onepage_form.gender) }}
+                        {{ form_row(onepage_form.description) }}
+                        {{ form_row(onepage_form.save) }}
+                    {{ form_end(onepage_form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

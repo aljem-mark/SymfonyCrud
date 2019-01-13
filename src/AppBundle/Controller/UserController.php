@@ -167,4 +167,65 @@ class UserController extends Controller
             }
         }
     }
+
+    /**
+     * @Route("/users-onepage", name="user_onepage")
+     */
+    public function onepageAction(Request $request)
+    {
+        $user = new User;
+
+        $form = $this->createForm(UserType::class, $user, [
+            'action' => $this->generateUrl('user_onepage_edit'),
+            'attr' => [
+                'id' => 'onepage-edit'
+            ]
+        ]);
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->getRepository('AppBundle:User')
+            ->createQueryBuilder('a');
+
+        if(!$request->query->get('sort') && !$request->query->get('direction')) {
+            $_GET['sort'] = 'a.id';
+            $_GET['direction'] = 'desc';
+        }
+
+        if($request->query->getAlnum('filter'))
+        {
+            $queryBuilder
+                ->where('a.username LIKE :username OR a.name LIKE :name OR a.email LIKE :email OR a.description LIKE :description')
+                // ->where('a.name LIKE :name')
+                // ->where('a.email LIKE :email')
+                // ->where('a.description LIKE :description')
+                ->groupBy('a.id')
+                ->setParameters([
+                    'username' => '%' . $request->query->getAlnum('filter') . '%',
+                    'name' => '%' . $request->query->getAlnum('filter') . '%',
+                    'email' => '%' . $request->query->getAlnum('filter') . '%',
+                    'description' => '%' . $request->query->getAlnum('filter') . '%'
+                ]);
+        }
+
+        $query = $queryBuilder->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
+        return $this->render('@AppBundle/user/onepage.html.twig', [
+            'users' => $pagination,
+            'onepage_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/user-onepage-edit", name="user_onepage_edit")
+     */
+    public function onepageEditAction(Request $request)
+    {
+    }
 }

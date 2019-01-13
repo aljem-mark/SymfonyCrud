@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Users{% endblock %}
 {% block body %}
 <div class="container-fluid">
     <div class="row justify-content-center mt-md-3">
@@ -23,7 +23,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" name="filter" placeholder="Search..." aria-label="Search..." aria-describedby="filter">
                     <div class="input-group-append">
-                        <button class="btn btn-secondary" type="submit" id="filter">Search</button>
+                        <button class="btn btn-dark" type="submit" id="filter"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </form>
@@ -65,9 +65,9 @@
                             <a class="apply-xeditable" href="#" data-type="textarea" data-pk="{{ user.id }}" data-name="description" data-url="{{ path('user_update_field') }}" data-original-title="Enter Description">{{ user.description }}</a>
                         </td>
                         <td>
-                            <a class="btn btn-success" href="{{ path('user_edit', {'id': user.id}) }}" role="button">Edit</a>
-                            <button type="button" class="btn btn-info toggle-editable" role="button">Inline Edit</button>
-                            <a class="btn btn-danger" href="{{ path('user_delete', {'id': user.id}) }}" role="button">Delete</a>
+                            <a class="btn btn-success mb-md-2" href="{{ path('user_edit', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></a>
+                            <button type="button" class="btn btn-info toggle-editable mb-md-2" role="button" title="Inline Edit"><i class="fas fa-pen-alt"></i></button>
+                            <a class="btn btn-danger mb-md-2" href="{{ path('user_delete', {'id': user.id}) }}" role="button" title="Delete"><i class="fas fa-trash-alt"></i></a>
                         </td>
                         </tr>
                         {% endfor %}

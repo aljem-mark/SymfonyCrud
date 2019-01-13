@@ -1,4 +1,3 @@
-// app.js
 require('@fortawesome/fontawesome-free/js/all.js');
 require('../css/app.scss');
 
@@ -6,6 +5,9 @@ const $ = require('jquery');
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
+
+require('../bootstrap-editable/js/bootstrap-editable.js');
+require('../bootstrap-editable/scss/bootstrap-editable.scss');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
@@ -16,11 +18,13 @@ function toggleEditable(el) {
 }
 
 $(document).ready(function() {
+    $('[data-toggle="popover"]').popover();
+
+    // set nav-item to active
     $('.nav-item.active').removeClass('active');
     $('.nav-link[href="' + location.pathname + '"]').closest('.nav-item').addClass('active');
 
-    $('[data-toggle="popover"]').popover();
-
+    // START: X-EDITABLE
     $(document).on('click', '.toggle-editable', function(e) {
         toggleEditable(this);
     });
@@ -66,9 +70,10 @@ $(document).ready(function() {
             });
         }
     });
+    // END: X-EDITABLE
 
+    // Registration Modal Save AJAX
     $('#registration-modal-save').on('submit', function(e) {
-
         e.preventDefault();
         $.ajax({
             type: $(this).attr('method'),
@@ -95,6 +100,3 @@ $(document).ready(function() {
         });
     });
 });
-
-require('../bootstrap-editable/js/bootstrap-editable.js');
-require('../bootstrap-editable/scss/bootstrap-editable.scss');

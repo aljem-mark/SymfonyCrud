@@ -2,7 +2,7 @@
 {% block title %}Users{% endblock %}
 {% block body %}
 <div class="container-fluid">
-    <div class="row justify-content-center mt-md-3">
+    <div class="row justify-content-center my-3">
         <div class="col-12">
             {% for label, messages in app.flashes(['success', 'danger']) %}
                 {% for message in messages %}
@@ -14,11 +14,11 @@
         </div>
     </div>
 
-    <div class="row justify-content-between align-items-center mb-md-3">
-        <div class="col-auto">
-            <h1 class="mb-0">Users</h1>
+    <div class="row justify-content-between align-items-center my-3">
+        <div class="col-md-auto col-12">
+            <h1 class="mb-md-0 mb-2">Users</h1>
         </div>
-        <div class="col-auto">
+        <div class="col-md-auto col-12">
             <form action="{{ path('user_list') }}" method="GET">
                 <div class="input-group">
                     <input type="text" class="form-control" name="filter" placeholder="Search..." aria-label="Search..." aria-describedby="filter">
@@ -65,9 +65,9 @@
                             <a class="apply-xeditable" href="#" data-type="textarea" data-pk="{{ user.id }}" data-name="description" data-url="{{ path('user_update_field') }}" data-original-title="Enter Description">{{ user.description }}</a>
                         </td>
                         <td>
-                            <a class="btn btn-success mb-md-2" href="{{ path('user_edit', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></a>
-                            <button type="button" class="btn btn-info toggle-editable mb-md-2" role="button" title="Inline Edit"><i class="fas fa-pen-alt"></i></button>
-                            <a class="btn btn-danger mb-md-2" href="{{ path('user_delete', {'id': user.id}) }}" role="button" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                            <a class="btn btn-success mb-lg-0 mb-2" href="{{ path('user_edit', {'id': user.id}) }}" role="button" title="Edit"><i class="fas fa-user-edit"></i></a>
+                            <button type="button" class="btn btn-info toggle-editable mb-lg-0 mb-2" role="button" title="Inline Edit"><i class="fas fa-pen-alt"></i></button>
+                            <a class="btn btn-danger mb-lg-0 mb-2" href="{{ path('user_delete', {'id': user.id}) }}" role="button" title="Delete"><i class="fas fa-trash-alt"></i></a>
                         </td>
                         </tr>
                         {% endfor %}

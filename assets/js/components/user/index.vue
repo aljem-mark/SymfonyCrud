@@ -1,5 +1,11 @@
 <template>
   <b-container fluid>
+    <b-row class="justify-content-between align-items-center my-3">
+      <b-col md="auto"
+        cols="12">
+        <h1 class="mb-md-0 mb-2">Users</h1>
+      </b-col>
+    </b-row>
     <b-table hover
       :items="items"
       :fields="fields"

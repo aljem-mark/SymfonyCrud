@@ -7,18 +7,28 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "encore dev-server --hot",
+    "dev": "encore dev --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@symfony/webpack-encore": "^0.22.4",
+    "@vue/test-utils": "^1.0.0-beta.28",
+    "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
     "jquery": "^3.3.1",
     "node-sass": "^4.11.0",
     "popper.js": "^1.14.6",
     "sass-loader": "^7.0.1",
+    "vue-loader": "^15.5.1",
+    "vue-template-compiler": "^2.5.22",
     "webpack-notifier": "^1.6.0"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "vue": "^2.5.22"
   }
 }

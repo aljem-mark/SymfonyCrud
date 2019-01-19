@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 require('@fortawesome/fontawesome-free/js/all.js');
 require('../css/app.scss');
 
@@ -12,6 +15,14 @@ require('../bootstrap-editable/scss/bootstrap-editable.scss');
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
+
+import Users from './components/user/index'
+import Register from './components/registration/register'
+
+new Vue({
+    el: '#app',
+    components: {Users,Register}
+})
 
 var userData;
 

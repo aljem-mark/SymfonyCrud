@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class UserController extends Controller
 {
@@ -16,42 +19,51 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('AppBundle:User')
-            ->createQueryBuilder('a');
+        // $em = $this->getDoctrine()->getManager();
+        // $queryBuilder = $em->getRepository('AppBundle:User')
+        //     ->createQueryBuilder('a');
 
-        if(!$request->query->get('sort') && !$request->query->get('direction')) {
-            $_GET['sort'] = 'a.id';
-            $_GET['direction'] = 'desc';
-        }
+        // if(!$request->query->get('sort') && !$request->query->get('direction')) {
+        //     $_GET['sort'] = 'a.id';
+        //     $_GET['direction'] = 'desc';
+        // }
 
-        if($request->query->getAlnum('filter'))
-        {
-            $queryBuilder
-                ->where('a.username LIKE :username OR a.name LIKE :name OR a.email LIKE :email OR a.description LIKE :description')
-                // ->where('a.name LIKE :name')
-                // ->where('a.email LIKE :email')
-                // ->where('a.description LIKE :description')
-                ->groupBy('a.id')
-                ->setParameters([
-                    'username' => '%' . $request->query->getAlnum('filter') . '%',
-                    'name' => '%' . $request->query->getAlnum('filter') . '%',
-                    'email' => '%' . $request->query->getAlnum('filter') . '%',
-                    'description' => '%' . $request->query->getAlnum('filter') . '%'
-                ]);
-        }
+        // if($request->query->getAlnum('filter'))
+        // {
+        //     $queryBuilder
+        //         ->where('a.username LIKE :username OR a.name LIKE :name OR a.email LIKE :email OR a.description LIKE :description')
+        //         // ->where('a.name LIKE :name')
+        //         // ->where('a.email LIKE :email')
+        //         // ->where('a.description LIKE :description')
+        //         ->groupBy('a.id')
+        //         ->setParameters([
+        //             'username' => '%' . $request->query->getAlnum('filter') . '%',
+        //             'name' => '%' . $request->query->getAlnum('filter') . '%',
+        //             'email' => '%' . $request->query->getAlnum('filter') . '%',
+        //             'description' => '%' . $request->query->getAlnum('filter') . '%'
+        //         ]);
+        // }
 
-        $query = $queryBuilder->getQuery();
+        // $query = $queryBuilder->getQuery();
 
-        $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            10/*limit per page*/
-        );
+        // $paginator  = $this->npmget('knp_paginator');
+        // $pagination = $paginator->paginate(
+        //     $query, /* query NOT result */
+        //     $request->query->getInt('page', 1)/*page number*/,
+        //     3/*limit per page*/
+        // );
+
+        // $repository = $this->getDoctrine()
+        //     ->getRepository('AppBundle:User');
+        // $users = $repository->findAll();
+
+        // $encoders = [new JsonEncoder()];
+        // $normalizers = [new ObjectNormalizer()];
+
+        // $serializer = new Serializer($normalizers, $encoders);
 
         return $this->render('@AppBundle/user/index.html.twig', [
-            'users' => $pagination
+            // 'users' => $serializer->serialize($users, 'json')
         ]);
     }
 
@@ -212,7 +224,7 @@ class UserController extends Controller
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            10/*limit per page*/
+            3/*limit per page*/
         );
 
         return $this->render('@AppBundle/user/onepage.html.twig', [

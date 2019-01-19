@@ -48,8 +48,10 @@
                 </ul>
             </div>
         </nav>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div id="app">
+            {% block body %}{% endblock %}
+        </div>
         <script src="{{ asset('build/app.js') }}"></script>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -26,6 +26,9 @@ Encore
 
     // create hashed filenames (e.g. app.abc123.css)
     // .enableVersioning()
+    
+    // Enable Vue loader
+    .enableVueLoader()
 ;
 
 // export the final configuration

@@ -18,38 +18,38 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $user = new User;
+        // $user = new User;
 
-        $form = $this->createForm(UserType::class, $user, [
+        // $form = $this->createForm(UserType::class, $user, [
 
-        ]);
+        // ]);
 
-        $form->handleRequest($request);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $this
-                ->get('security.password_encoder')
-                ->encodePassword(
-                    $user,
-                    $user->getPlainPassword()
-                );
+        //     $password = $this
+        //         ->get('security.password_encoder')
+        //         ->encodePassword(
+        //             $user,
+        //             $user->getPlainPassword()
+        //         );
 
-            $user->setPassword($password);
+        //     $user->setPassword($password);
 
-            $em = $this->getDoctrine()->getManager();
+        //     $em = $this->getDoctrine()->getManager();
 
-            $em->persist($user);
-            $em->flush();
+        //     $em->persist($user);
+        //     $em->flush();
 
-            $this->addFlash('success', 'You are now successfully registered!');
+        //     $this->addFlash('success', 'You are now successfully registered!');
 
-            return $this->redirectToRoute('user_list');
+        //     return $this->redirectToRoute('user_list');
 
-        }
+        // }
 
         return $this->render('@AppBundle/registration/register.html.twig', [
-            'registration_form' => $form->createView(),
+            // 'registration_form' => $form->createView(),
         ]);
     }
 

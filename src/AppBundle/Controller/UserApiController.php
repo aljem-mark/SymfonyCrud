@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,5 +44,46 @@ class UserApiController extends Controller
      */
     public function createAction(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+        unset($data['plainPassword2']);
+
+        $user = new User;
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->submit($data);
+
+        if ($form->isValid())
+        {
+            $password = $this
+                ->get('security.password_encoder')
+                ->encodePassword(
+                    $user,
+                    $user->getPlainPassword()
+                );
+
+            $user->setPassword($password);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($user);
+            $em->flush();
+
+            return new JsonResponse(['success' => 'You are now successfully registered!'], 200);
+        }
+        else
+        {
+            $errors = array();
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+
+            $response = new JsonResponse(['errors' => $errors], 400);
+            return $response;
+        }
+
+        $response = new JsonResponse(['errors' => ['Error']], 400);
+
+        return $response;
     }
 }

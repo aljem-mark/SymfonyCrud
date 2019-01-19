@@ -36,7 +36,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     *      message="Name should not be blank."
+     * )
      */
     private $name;
 
@@ -44,7 +46,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     *      message="Username should not be blank."
+     * )
      */
     private $username;
 
@@ -52,7 +56,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     *      message="Email should not be blank."
+     * )
      */
     private $email;
 

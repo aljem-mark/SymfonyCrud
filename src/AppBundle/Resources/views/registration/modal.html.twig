@@ -13,7 +13,6 @@
                 <div class="modal-body">
                     <div class="form_error"></div>
                     {{ form_start(modal_form) }}
-                        {{ form_row(modal_form._token, { 'id': 'modal_' ~ modal_form._token.vars.id }) }}
                         {{ form_row(modal_form.name, { 'id': 'modal_' ~ modal_form.name.vars.id }) }}
                         {{ form_row(modal_form.username, { 'id': 'modal_' ~ modal_form.username.vars.id }) }}
                         {{ form_row(modal_form.email, { 'id': 'modal_' ~ modal_form.email.vars.id }) }}

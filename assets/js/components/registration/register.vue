@@ -5,6 +5,21 @@
 				<b-card header="Add New User"
 					header-tag="h1">
 					<b-form @submit="onSubmit">
+						<b-alert v-if="errors.length"
+							show
+							variant="danger">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in errors">
+									{{ error }}
+								</li>
+							</ul>
+						</b-alert>
+						<b-alert v-if="success"
+							show
+							variant="success">
+								<p>{{ success }}</p>
+						</b-alert>
 						<b-form-group label="Name"
 							label-for="registerName">
 							<b-form-input id="registerName"
@@ -34,7 +49,7 @@
 							<b-form-input id="registerPassword"
 								type="password"
 								name="register_password"
-                v-model="form.password"
+                v-model="form.plainPassword"
 								required></b-form-input>
 						</b-form-group>
 						<b-form-group label="Repeat Password"
@@ -42,6 +57,7 @@
 							<b-form-input id="registerPassword2"
 								type="password"
 								name="register_password2"
+                v-model="form.plainPassword2"
 								required></b-form-input>
 						</b-form-group>
 						<b-form-group label="Gender"
@@ -76,6 +92,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
 	data () {
 		return {
@@ -83,10 +102,13 @@ export default {
         name: '',
         username: '',
         email: '',
-        password: '',
+        plainPassword: '',
+				plainPassword2: '',
         gender: '',
         description: '',
       },
+			errors: [],
+			success: '',
 			selected: null,
 			options: [
 			{ value: 'm', text: 'Male' },
@@ -97,7 +119,21 @@ export default {
 	methods: {
 		onSubmit (evt) {
 			evt.preventDefault();
-			alert(JSON.stringify(this.form));
+			this.errors = [];
+
+			if(this.form.plainPassword !== this.form.plainPassword2) {
+				this.errors.push('Password does not match.');
+			}
+
+			if(!this.errors.length) {
+				axios.post('api/user/create', this.form)
+				.then(response => {
+					this.success = response.data.success
+				})
+				.catch(e => {
+					this.errors = e.response.data.errors
+				});
+			}
 		}
 	}
 }

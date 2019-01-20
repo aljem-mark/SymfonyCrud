@@ -11,7 +11,7 @@
             variant="danger">
             <b>Please correct the following error(s):</b>
             <ul>
-                <li v-for="error in errors">
+                <li v-for="(error, index) in errors" :key="index">
                     {{ error }}
                 </li>
             </ul>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { EventBus } from '../../app';
+
 export default {
 	data () {
 		return {
@@ -101,17 +103,20 @@ export default {
 		}
 	},
 	created() {
-        let url = this.$routing.generate('api_user_list')
-		this.$axios.get(url)
-        .then(response => {
-            this.items = response.data.users
-            this.totalRows = this.items.length
-        })
-        .catch(e => {
-            this.errors = e.response.data.errors
-        });
+        this.fetchUsersList()
     },
     methods: {
+        fetchUsersList() {
+            let url = this.$routing.generate('api_user_list')
+            this.$axios.get(url)
+            .then(response => {
+                this.items = response.data.users
+                this.totalRows = this.items.length
+            })
+            .catch(e => {
+                this.errors = e.response.data.errors
+            });
+        },
         countDownChanged (dismissCountDown) {
             this.dismissCountDown = dismissCountDown
         },
@@ -137,19 +142,14 @@ export default {
 				});
 			}
         }
-    },
-    updated: function () {
-        this.$nextTick(function () {
-            let url = this.$routing.generate('api_user_list')
-            this.$axios.get(url)
-            .then(response => {
-                this.items = response.data.users
-                this.totalRows = this.items.length
-            })
-            .catch(e => {
-                this.errors = e.response.data.errors
-            });
-        })
-    }
+	},
+	mounted: function () {
+		const self = this
+		EventBus.$on('modalAddUser', (bool) => {
+			if(bool === true) {
+				self.fetchUsersList()
+			}
+		});
+	},
 }
 </script>

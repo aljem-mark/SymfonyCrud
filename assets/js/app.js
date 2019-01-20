@@ -11,6 +11,8 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 Vue.prototype.$routing = Routing;
 
+export const EventBus = new Vue();
+
 require('@fortawesome/fontawesome-free/js/all.js');
 require('../css/app.scss');
 
@@ -27,6 +29,7 @@ import Register from './components/registration/register'
 import Users from './components/user/index'
 import UserEdit from './components/user/edit'
 import UserModal from './components/registration/modal'
+import UserOnepage from './components/user/onepage'
 
 new Vue({
     el: '#app',
@@ -34,7 +37,8 @@ new Vue({
         Homepage,
         Register,
         Users,
-        UserEdit
+        UserEdit,
+        UserOnepage,
     }
 })
 

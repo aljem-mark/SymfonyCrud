@@ -17,7 +17,7 @@
                     variant="danger">
                     <b>Please correct the following error(s):</b>
                     <ul>
-                        <li v-for="error in errors">
+                        <li v-for="(error, index) in errors" :key="index">
                             {{ error }}
                         </li>
                     </ul>
@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import { EventBus } from '../../app';
+
 export default {
     name: 'user-modal',
     data () {
@@ -123,6 +125,7 @@ export default {
                     this.success = response.data.success
                     $('#userModal').animate({ scrollTop: 0 }, 'slow')
                     setTimeout(function () { this.$refs.modal.hide() }.bind(this), 3000)
+                    EventBus.$emit('modalAddUser', true);
 				})
 				.catch(e => {
                     this.errors = e.response.data.errors

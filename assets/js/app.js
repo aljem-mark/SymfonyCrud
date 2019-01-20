@@ -25,6 +25,7 @@ require('../bootstrap-editable/scss/bootstrap-editable.scss');
 import Users from './components/user/index'
 import Register from './components/registration/register'
 import UserEdit from './components/user/edit'
+import UserModal from './components/registration/modal'
 
 new Vue({
     el: '#app',
@@ -32,6 +33,13 @@ new Vue({
         Users,
         Register,
         UserEdit
+    }
+})
+
+new Vue({
+    el: '#app-user-modal',
+    components: {
+        UserModal
     }
 })
 

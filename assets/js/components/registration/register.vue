@@ -103,13 +103,15 @@ export default {
 		onSubmit (evt) {
 			evt.preventDefault();
 			this.errors = [];
+            this.success = '';
 
 			if(this.form.plainPassword !== this.form.plainPassword2) {
 				this.errors.push('Password does not match.');
 			}
 
 			if(!this.errors.length) {
-				this.$axios.post('api/user/create', this.form)
+                let url = this.$routing.generate('api_user_create')
+				this.$axios.post(url, this.form)
 				.then(response => {
 					this.success = response.data.success
 				})

@@ -154,4 +154,23 @@ class UserApiController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route("/api/user/delete/{id}", name="api_user_delete", options = { "expose" = true })
+     */
+    public function deleteAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:User');
+        $user = $repository->find($id);
+
+        $em->remove($user);
+        $em->flush();
+
+        $response = new JsonResponse(['success' => 'User successfully deleted.'], 200);
+
+        return $response;
+    }
 }

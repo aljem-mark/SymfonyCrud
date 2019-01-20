@@ -68,7 +68,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/edit/{id}", name="user_edit")
+     * @Route("/user/edit/{id}", name="user_edit", options = { "expose" = true })
      */
     public function editAction($id, Request $request)
     {

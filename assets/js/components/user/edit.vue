@@ -18,7 +18,7 @@
 						<b-alert v-if="success"
 							show
 							variant="success">
-								<p>{{ success }}</p>
+                            <p>{{ success }}</p>
 						</b-alert>
 						<b-form-group label="Name"
 							label-for="editName">
@@ -99,6 +99,7 @@ export default {
 		onSubmit (evt) {
 			evt.preventDefault();
 			this.errors = [];
+            this.success = '';
 
 			if(!this.errors.length) {
                 let url = this.$routing.generate('api_user_update', { id: this.id })

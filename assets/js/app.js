@@ -22,16 +22,18 @@ require('bootstrap');
 require('../bootstrap-editable/js/bootstrap-editable.js');
 require('../bootstrap-editable/scss/bootstrap-editable.scss');
 
-import Users from './components/user/index'
+import Homepage from './components/default/index'
 import Register from './components/registration/register'
+import Users from './components/user/index'
 import UserEdit from './components/user/edit'
 import UserModal from './components/registration/modal'
 
 new Vue({
     el: '#app',
     components: {
-        Users,
+        Homepage,
         Register,
+        Users,
         UserEdit
     }
 })

@@ -10,32 +10,16 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ path('homepage') }}">Symfony CRUD</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
+        <div id="app">
+            <navigation>
+                <template slot="modalLink">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('user_list') }}">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('user_onepage') }}">Users Onepage</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('registration') }}">Register</a>
-                    </li>
-                    <li class="nav-item" id="app-user-modal">
                         {{ render(controller(
                             'AppBundle:Registration:modal'
                         )) }}
                     </li>
-                </ul>
-            </div>
-        </nav>
-        <div id="app">
+                </template>
+            </navigation>
             {% block body %}{% endblock %}
         </div>
         <script src="{{ asset('build/app.js') }}"></script>

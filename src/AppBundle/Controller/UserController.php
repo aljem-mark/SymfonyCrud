@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class UserController extends Controller
 {
     /**
-     * @Route("/users", name="user_list")
+     * @Route("/users", name="user_list", options = { "expose" = true })
      */
     public function indexAction(Request $request)
     {
@@ -180,7 +180,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users-onepage", name="user_onepage")
+     * @Route("/users-onepage", name="user_onepage", options = { "expose" = true })
      */
     public function onepageAction(Request $request)
     {

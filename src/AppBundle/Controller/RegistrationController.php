@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class RegistrationController extends Controller
 {
     /**
-     * @Route("/register", name="registration")
+     * @Route("/register", name="registration", options = { "expose" = true })
      * @return \Symfony\Component\HttpFoundation\Request
      * @throws \LogicException
      */
@@ -54,23 +54,23 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/register-modal", name="registration_modal")
+     * @Route("/register-modal", name="registration_modal", options = { "expose" = true })
      * @return \Symfony\Component\HttpFoundation\Request
      * @throws \LogicException
      */
     public function modalAction(Request $request)
     {
-        $user = new User;
+        // $user = new User;
 
-        $form = $this->createForm(UserType::class, $user, [
-            'action' => $this->generateUrl('registration_modal_save'),
-            'attr' => [
-                'id' => 'registration-modal-save'
-            ]
-        ]);
+        // $form = $this->createForm(UserType::class, $user, [
+        //     'action' => $this->generateUrl('registration_modal_save'),
+        //     'attr' => [
+        //         'id' => 'registration-modal-save'
+        //     ]
+        // ]);
 
         return $this->render('@AppBundle/registration/modal.html.twig', [
-            'modal_form' => $form->createView(),
+            // 'modal_form' => $form->createView(),
         ]);
     }
 

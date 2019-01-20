@@ -24,6 +24,8 @@ require('bootstrap');
 require('../bootstrap-editable/js/bootstrap-editable.js');
 require('../bootstrap-editable/scss/bootstrap-editable.scss');
 
+import Navigation from './components/navigation'
+
 import Homepage from './components/default/index'
 import Register from './components/registration/register'
 import Users from './components/user/index'
@@ -34,18 +36,13 @@ import UserOnepage from './components/user/onepage'
 new Vue({
     el: '#app',
     components: {
+        Navigation,
         Homepage,
         Register,
         Users,
         UserEdit,
+        UserModal,
         UserOnepage,
-    }
-})
-
-new Vue({
-    el: '#app-user-modal',
-    components: {
-        UserModal
     }
 })
 

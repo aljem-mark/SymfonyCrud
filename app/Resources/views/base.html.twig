@@ -24,13 +24,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('user_onepage') }}">Users Onepage</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('registration') }}">Register</a>
+                    </li>
                     <li class="nav-item" id="app-user-modal">
                         {{ render(controller(
                             'AppBundle:Registration:modal'
                         )) }}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('registration') }}">Register</a>
                     </li>
                 </ul>
             </div>

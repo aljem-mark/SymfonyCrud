@@ -2,11 +2,13 @@
     <div>
         <b-btn v-b-modal.userModal
             class="nav-link"
-            variant="link">
+            variant="outline-secondary">
             Add User
         </b-btn>
 
-        <b-modal id="userModal" title="Bootstrap-Vue"
+        <b-modal id="userModal"
+            ref="modal"
+            title="Add New User"
             title-tag="h2"
             hide-footer>
             <b-form @submit="onSubmit">
@@ -119,7 +121,8 @@ export default {
 				this.$axios.post(url, this.form)
 				.then(response => {
                     this.success = response.data.success
-                    this.$refs.modal.hide()
+                    $('#userModal').animate({ scrollTop: 0 }, 'slow')
+                    setTimeout(function () { this.$refs.modal.hide() }.bind(this), 3000)
 				})
 				.catch(e => {
                     this.errors = e.response.data.errors

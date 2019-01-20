@@ -6,6 +6,18 @@
                     cols="12">
                     <h1 class="mb-md-0 mb-2">Users</h1>
                 </b-col>
+                <b-col md="auto"
+                    cols="12"
+                    class="my-1">
+                    <b-input-group>
+                        <b-form-input v-model="filter"
+                            placeholder="Type to Search" />
+                        <b-input-group-append>
+                            <b-btn :disabled="!filter"
+                                @click="filter = ''">Clear</b-btn>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-col>
             </b-row>
             <b-alert v-if="errors.length"
                 show
@@ -34,7 +46,9 @@
                 :items="items"
                 :fields="fields"
                 :current-page="currentPage"
-                :per-page="perPage">
+                :per-page="perPage"
+                :filter="filter"
+                @filtered="onFiltered">
                 <template slot="actions" slot-scope="row">
                     <b-button size="sm"
                         @click="editUser(row.item.id)"
@@ -165,6 +179,7 @@ export default {
 			currentPage: 1,
 			perPage: 5,
             totalRows: 0,
+			filter: null,
             errors: [],
             success: '',
             dismissSecs: 5,
@@ -200,19 +215,16 @@ export default {
                 this.errors = e.response.data.errors
             });
         },
-        forceRerender() {
-            this.renderTable = false;
-            
-            this.$nextTick(() => {
-                this.renderTable = true;
-            });
-        },
         countDownChanged (dismissCountDown) {
             this.dismissCountDown = dismissCountDown
         },
         showSuccessAlert () {
             this.dismissCountDown = this.dismissSecs
         },
+		onFiltered (filteredItems) {
+			this.totalRows = filteredItems.length
+			this.currentPage = 1
+		},
         editUser(uid) {
             let url = this.$routing.generate('api_user_edit', { id: uid })
             this.$axios.post(url)

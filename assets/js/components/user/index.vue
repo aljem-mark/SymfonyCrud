@@ -5,6 +5,18 @@
 				cols="12">
 				<h1 class="mb-md-0 mb-2">Users</h1>
 			</b-col>
+			<b-col md="auto"
+				cols="12"
+				class="my-1">
+				<b-input-group>
+					<b-form-input v-model="filter"
+						placeholder="Type to Search" />
+					<b-input-group-append>
+						<b-btn :disabled="!filter"
+							@click="filter = ''">Clear</b-btn>
+					</b-input-group-append>
+				</b-input-group>
+			</b-col>
 		</b-row>
         <b-alert v-if="errors.length"
             show
@@ -33,7 +45,9 @@
 			:items="items"
 			:fields="fields"
 			:current-page="currentPage"
-			:per-page="perPage">
+			:per-page="perPage"
+			:filter="filter"
+			@filtered="onFiltered">
 			<template slot="actions" slot-scope="row">
 				<b-button size="sm"
                     :href="generateEditUrl(row.item.id)"
@@ -96,8 +110,9 @@ export default {
 			currentPage: 1,
 			perPage: 5,
             totalRows: 0,
+			filter: null,
             errors: [],
-            success: '',
+			success: '',
             dismissSecs: 5,
             dismissCountDown: 0,
 		}
@@ -122,7 +137,12 @@ export default {
         },
         showSuccessAlert () {
             this.dismissCountDown = this.dismissSecs
-        },
+		},
+		onFiltered (filteredItems) {
+			// Trigger pagination to update the number of buttons/pages due to filtering
+			this.totalRows = filteredItems.length
+			this.currentPage = 1
+		},
         generateEditUrl(uid) {
             return this.$routing.generate('user_edit', { id: uid })
         },
@@ -141,7 +161,11 @@ export default {
 					this.errors = e.response.data.errors
 				});
 			}
-        }
+        },
+		onFiltered (filteredItems) {
+			this.totalRows = filteredItems.length
+			this.currentPage = 1
+		},
 	},
 	mounted: function () {
 		const self = this

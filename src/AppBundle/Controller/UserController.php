@@ -72,31 +72,31 @@ class UserController extends Controller
      */
     public function editAction($id, Request $request)
     {
-        $repository = $this->getDoctrine()
-            ->getRepository('AppBundle:User');
-        $user = $repository->find($id);
+        // $repository = $this->getDoctrine()
+        //     ->getRepository('AppBundle:User');
+        // $user = $repository->find($id);
 
-        $form = $this->createForm(UserType::class, $user, [
+        // $form = $this->createForm(UserType::class, $user, [
 
-        ]);
+        // ]);
 
-        $form->handleRequest($request);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
+        //     $em = $this->getDoctrine()->getManager();
 
-            $em->persist($user);
-            $em->flush();
+        //     $em->persist($user);
+        //     $em->flush();
 
-            $this->addFlash('success', 'User successfully updated!');
+        //     $this->addFlash('success', 'User successfully updated!');
 
-            return $this->redirectToRoute('user_list');
+        //     return $this->redirectToRoute('user_list');
 
-        }
+        // }
 
         return $this->render('@AppBundle/user/edit.html.twig', [
-            'edit_form' => $form->createView(),
+            'id' => $id,
         ]);
     }
 

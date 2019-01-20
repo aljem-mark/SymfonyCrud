@@ -49,3 +49,6 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
+
+parameters:
+    router.request_context.base_url: "/app_dev.php"

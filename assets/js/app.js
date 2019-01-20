@@ -1,6 +1,16 @@
 import Vue from 'vue';
+import axios from 'axios';
 import BootstrapVue from 'bootstrap-vue';
+
 Vue.use(BootstrapVue);
+Vue.prototype.$axios = axios;
+
+const routes = require('../../web/js/fos_js_routes.json');
+import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+
+Routing.setRoutingData(routes);
+Vue.prototype.$routing = Routing;
+
 require('@fortawesome/fontawesome-free/js/all.js');
 require('../css/app.scss');
 
@@ -12,16 +22,17 @@ require('bootstrap');
 require('../bootstrap-editable/js/bootstrap-editable.js');
 require('../bootstrap-editable/scss/bootstrap-editable.scss');
 
-// or you can include specific pieces
-// require('bootstrap/js/dist/tooltip');
-// require('bootstrap/js/dist/popover');
-
 import Users from './components/user/index'
 import Register from './components/registration/register'
+import UserEdit from './components/user/edit'
 
 new Vue({
     el: '#app',
-    components: {Users,Register}
+    components: {
+        Users,
+        Register,
+        UserEdit
+    }
 })
 
 var userData;

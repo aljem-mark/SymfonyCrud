@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserApiController extends Controller
 {
     /**
-     * @Route("/api/users", name="api_user_list")
+     * @Route("/api/users", name="api_user_list", options = { "expose" = true })
      */
     public function indexAction(Request $request)
     {
@@ -38,9 +38,8 @@ class UserApiController extends Controller
         ], 200);
     }
 
-    
     /**
-     * @Route("/api/user/create", name="api_user_create")
+     * @Route("/api/user/create", name="api_user_create", options = { "expose" = true })
      */
     public function createAction(Request $request)
     {
@@ -70,6 +69,75 @@ class UserApiController extends Controller
             $em->flush();
 
             return new JsonResponse(['success' => 'You are now successfully registered!'], 200);
+        }
+        else
+        {
+            $errors = array();
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+
+            $response = new JsonResponse(['errors' => $errors], 400);
+            return $response;
+        }
+
+        $response = new JsonResponse(['errors' => ['Error']], 400);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/user/{id}", name="api_user_edit", options = { "expose" = true })
+     */
+    public function editAction($id, Request $request)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:User');
+        $user = $repository->find($id);
+
+        if($user) 
+        {
+            $response = new JsonResponse([
+                'user' => [
+                    'name' => $user->getName(),
+                    'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
+                    'gender' => $user->getGender(),
+                    'description' => $user->getDescription(),
+                ],
+            ], 200);
+    
+            return $response;
+        }
+
+        $response = new JsonResponse(['errors' => ['Error']], 400);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/api/user/update/{id}", name="api_user_update", options = { "expose" = true })
+     */
+    public function updateAction($id, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:User');
+        $user = $repository->find($id);
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->submit($data);
+
+        if ($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($user);
+            $em->flush();
+
+            return new JsonResponse(['success' => 'User successfully updated.'], 200);
         }
         else
         {

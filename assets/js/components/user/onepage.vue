@@ -246,6 +246,8 @@ export default {
 				.then(response => {
                     this.success = response.data.success
                     this.showSuccessAlert()
+                    
+                    EventBus.$emit('modalAddUser', true);
 				})
 				.catch(e => {
 					this.errors = e.response.data.errors

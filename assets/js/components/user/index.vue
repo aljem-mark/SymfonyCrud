@@ -155,7 +155,9 @@ export default {
 				this.$axios.post(url)
 				.then(response => {
                     this.success = response.data.success
-                    this.showSuccessAlert()
+					this.showSuccessAlert()
+					
+					EventBus.$emit('modalAddUser', true);
 				})
 				.catch(e => {
 					this.errors = e.response.data.errors
